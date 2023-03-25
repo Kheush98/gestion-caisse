@@ -49,11 +49,16 @@ class UserController extends Controller
             $paiement->montant = $request->montant;
             $paiement->type = $request->type;
             $paiement->etudiant_phone = $request->phone;
-            $paiement->modePaiement = 'Espéce';
+            $paiement->modePaiement = $request->modePaiement;
             $paiement->user_id = Auth::id();
             $paiement->niveau_code = $request->code;
             $paiement->date = Carbon::now();
-
+            if (isset($request->detail1)) {
+                $paiement->numCheque = $request->detail1;
+            }
+            if (isset($request->detail2)) {
+                $paiement->bank = $request->detail2;
+            }
             $save = $paiement->save();
 
             if($save){

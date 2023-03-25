@@ -7,9 +7,9 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 w-full">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg flex border border-blue-600" style="height: 400px;">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg flex border border-blue-900" style="height: 450px;">
     
-                <div class=" w-1/2 p-6 lg:p-8 bg-white dark:bg-gray-800 dark:bg-gradient-to-bl dark:from-gray-700/50 dark:via-transparent border-b border-gray-200 dark:border-gray-700">
+                <div class="flex flex-col items-center w-2/5 p-6 lg:p-8 bg-white dark:bg-gray-800 dark:bg-gradient-to-bl dark:from-gray-700/50 dark:via-transparent border-b border-gray-200 dark:border-gray-700">
 
                     <form method="POST" action="{{ route('nouveaupost') }}">
                         @if(Session::get('success'))
@@ -29,8 +29,8 @@
                         </div>
 
                         <div class="mt-4">
-                            <x-label for="phone" value="{{ __('Numéro') }}" />
-                            <input type="number" name="phone" id="phone" value="{{$etudiant->phone}}" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm" readonly>
+                            {{-- <x-label for="phone" value="{{ __('Numéro') }}" /> --}}
+                            <input type="hidden" name="phone" id="phone" value="{{$etudiant->phone}}" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm" readonly>
                         </div>
 
                         <div class="mt-4">
@@ -40,8 +40,21 @@
                                 <option value="Inscription">Inscription</option>
                             </select>
                         </div>
-                        <input type="hidden" name="code" id="" value="{{$niveau->code}}" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm" readonly>
 
+                        <div class="mt-4 flex flex-auto">
+                            <input type="radio" id="paiementChoice1" name="modePaiement" value="Espéce" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm" checked onchange="masquer()">
+                            <label for="paiementChoice1" class="mx-3 block font-medium text-sm text-gray-700 dark:text-gray-300">Espéce</label>
+                            <input type="radio" id="paiementChoice2" name="modePaiement" value="Chéque" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm" onchange="affiche()">
+                            <label for="paiementChoice2" class="mx-3 block font-medium text-sm text-gray-700 dark:text-gray-300">Chéque</label>
+                        </div>
+
+                        <div class="mt-4 flex flex-col">
+                            <x-label for="detail1" id="num" value="{{ __('Numéro chéque') }}" class="hidden"/>
+                            <input type="hidden" name="detail1" id="detail1" value="{{ old('detail1') }}" class="mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm" required>
+                            <x-label for="detail2" id="bank" value="{{ __('Bank') }}" class="hidden"/>
+                            <input type="hidden" name="detail2" id="detail2" value="{{ old('detail2') }}" class="mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm" required>
+                        </div>
+                        <input type="hidden" name="code" id="" value="{{$niveau->code}}" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm" readonly>
 
                         <div class="flex items-center justify-end mt-4">
                             <x-button class="ml-4">
@@ -50,7 +63,24 @@
                         </div>
                     </form>
                 </div>
-                <div class="w-1/2 p-6 lg:p-8 bg-white dark:bg-gray-800 dark:bg-gradient-to-bl dark:from-gray-700/50 dark:via-transparent border-b border-gray-200 dark:border-gray-700" style="overflow: auto;">
+                <script>
+        
+                    function affiche() {
+                        document.getElementById("detail1").type = "number";    
+                        document.getElementById("num").className = "block font-medium text-sm text-gray-700 dark:text-gray-300";
+                        document.getElementById("detail2").type = "text";    
+                        document.getElementById("bank").className = "block font-medium text-sm text-gray-700 dark:text-gray-300";
+                    }
+
+                    function masquer() {
+                        document.getElementById("detail1").type = "hidden";    
+                        document.getElementById("num").className = "hidden";
+                        document.getElementById("detail2").type = "hidden";    
+                        document.getElementById("bank").className = "hidden";
+                    }
+
+                </script>
+                <div class="w-3/5 p-6 lg:p-8 bg-white dark:bg-gray-800 dark:bg-gradient-to-bl dark:from-gray-700/50 dark:via-transparent border-l border-white dark:border-gray-700" style="overflow: auto;">
                     <h1 class="mt-8 text-2xl font-medium text-gray-900 dark:text-white text-center">Historiques de paiement</h1>
                     
                     <div class="flex flex-col">
